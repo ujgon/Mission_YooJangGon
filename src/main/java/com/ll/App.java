@@ -16,7 +16,7 @@ public class App {
     }
 
     public void run() {
-        System.out.println("== 명언 앱 ==");
+        System.out.println("======= 명언 앱 ========");
 
         while (true) {
             System.out.print("명령) ");
@@ -82,7 +82,28 @@ public class App {
             return;
         }
 
-        System.out.printf("%d번 명언을 삭제합니다.\n", id);
+        int index = findQuotationIndexById(id);
+
+        if (index == -1) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        quotations.remove(index);
+
+        System.out.printf("%d번 명언을 삭제되었습니다.\n", id);
+    }
+
+    private int findQuotationIndexById(int id) {
+        for (int i = 0; i < quotations.size(); i++) {
+            Quotation quotation = quotations.get(i);
+
+            if (quotation.id == id) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     private void actionModify(Rq rq) {
@@ -93,6 +114,26 @@ public class App {
             return;
         }
 
-        System.out.printf("%d번 명언을 수정합니다.\n", id);
+        int index = findQuotationIndexById(id);
+
+        if (index == -1) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        Quotation quotation = quotations.get(index);
+
+        System.out.printf("명언(기존) : %s\n", quotation.content);
+        System.out.print("명언 : ");
+        String content = scanner.nextLine();
+
+        System.out.printf("작가(기존) : %s\n", quotation.authorName);
+        System.out.print("작가 : ");
+        String authorName = scanner.nextLine();
+
+        quotation.content = content;
+        quotation.authorName = authorName;
+
+        System.out.printf("%d번 명언을 수정되었습니다.\n", id);
     }
 }
